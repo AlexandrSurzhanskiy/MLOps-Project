@@ -1,0 +1,16 @@
+data:
+  path: data/events.csv
+  test_size: 0.2
+  random_seed: 42
+
+training:
+  epochs: 5
+  batch_size: 256
+  lr: 0.001
+  embedding_dim: 32
+  hidden_dim: 64
+  verbose: true
+  output_dir: models/recsys_model
+
+logging:
+  level: INFO

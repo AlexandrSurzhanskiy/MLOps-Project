@@ -1,0 +1,38 @@
+data:
+  path_raw: data/raw/events.csv
+  path_processed: data/processed/interactions.parquet
+  n_users: 30542
+  n_items: 8709
+  test_size: 0.2
+  random_seed: 42
+
+model:
+  name: recsys_nn
+  params:
+    embedding_dim: 64
+    hidden_dim: 128
+    dropout: 0.2
+
+training:
+  epochs: 5
+  batch_size: 256
+  random_seed: 42
+  log_every: 1
+  output_dir: models/recsys_nn_v1
+
+optimizer:
+  name: adam
+  lr: 0.001
+  weight_decay: 0.0
+
+scheduler:
+  name: step
+  step_size: 3
+  gamma: 0.5
+
+logging:
+  level: INFO
+
+reports:
+  output_dir: reports
+  fmt: txt
