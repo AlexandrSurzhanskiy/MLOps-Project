@@ -29,7 +29,7 @@ jobs:
           black --check --line-length=120 .
           flake8 .
 
-      - name: Run pytest with coverage
+      - name: Run tests with coverage
         run: |
+          export PYTHONPATH=.
           pytest -q --disable-warnings --maxfail=1 --cov=src --cov-report=term-missing
-
