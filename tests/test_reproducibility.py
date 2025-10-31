@@ -13,6 +13,4 @@ def test_reproducibility():
     state2 = [p.clone() for p in model2.parameters()]
 
     for p1, p2 in zip(state1, state2):
-        assert torch.allclose(
-            p1, p2
-        ), "Модели при одинаковом seed должны иметь идентичные веса"
+        assert torch.allclose(p1, p2), "Модели при одинаковом seed должны иметь идентичные веса"

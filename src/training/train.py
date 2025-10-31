@@ -38,9 +38,7 @@ def train_model(model, train_loader, val_loader, cfg, device="cpu"):
     for epoch in range(1, n_epochs + 1):
         loss = train_one_epoch(model, train_loader, criterion, optimizer, device)
         metrics = validate(model, val_loader, device)
-        logging.info(
-            f"[EPOCH {epoch}/{n_epochs}] loss={loss:.4f} | AUC={metrics.get('auc', 0):.4f}"
-        )
+        logging.info(f"[EPOCH {epoch}/{n_epochs}] loss={loss:.4f} | AUC={metrics.get('auc', 0):.4f}")
 
         if scheduler:
             if "plateau" in str(type(scheduler)).lower():

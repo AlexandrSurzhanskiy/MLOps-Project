@@ -58,7 +58,5 @@ def preprocess_events(
 if __name__ == "__main__":
     import logging
 
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
     preprocess_events("data/raw/events.csv", "data/processed/interactions.parquet")

@@ -22,15 +22,11 @@ def split_dataset(
     train_df.to_parquet("data/processed/train.parquet", index=False)
     test_df.to_parquet("data/processed/test.parquet", index=False)
 
-    logging.info(
-        f"Train: {len(train_df):,}, Test: {len(test_df):,} — сохранены в data/processed/"
-    )
+    logging.info(f"Train: {len(train_df):,}, Test: {len(test_df):,} — сохранены в data/processed/")
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
     split_dataset(
         processed_path="data/processed/interactions.parquet",
         test_size=0.2,

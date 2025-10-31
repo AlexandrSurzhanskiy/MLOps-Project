@@ -27,9 +27,7 @@ def main():
 
     logging.info(f"Загрузка датасета: {train_path}")
 
-    train_loader, val_loader = get_dataloaders(
-        train_path, test_path, batch_size=cfg["training"]["batch_size"]
-    )
+    train_loader, val_loader = get_dataloaders(train_path, test_path, batch_size=cfg["training"]["batch_size"])
 
     train_df = pd.read_parquet(train_path)
     val_df = pd.read_parquet(test_path)

@@ -9,9 +9,7 @@ from src.models.recsys_nn import RecSysNN
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Запуск инференса обученной рекомендательной модели"
-    )
+    parser = argparse.ArgumentParser(description="Запуск инференса обученной рекомендательной модели")
     parser.add_argument(
         "--model_dir",
         type=str,

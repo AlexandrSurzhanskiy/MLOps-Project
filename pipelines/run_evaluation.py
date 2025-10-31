@@ -17,9 +17,7 @@ def find_latest_prediction(version_name: str, base_dir="MLOps/predictions") -> P
         reverse=True,
     )
     if not csv_files:
-        raise FileNotFoundError(
-            f"В {version_dir} нет ни одного .csv файла с предсказаниями"
-        )
+        raise FileNotFoundError(f"В {version_dir} нет ни одного .csv файла с предсказаниями")
 
     latest = csv_files[0]
     logging.info(f"Найден последний файл предсказаний: {latest}")
@@ -69,9 +67,7 @@ def main():
             target_col = col
             break
     else:
-        raise ValueError(
-            f"Не удалось найти колонку таргета. Доступные: {gt_df.columns.tolist()}"
-        )
+        raise ValueError(f"Не удалось найти колонку таргета. Доступные: {gt_df.columns.tolist()}")
 
     logging.info(f"Используется колонка таргета: {target_col}")
 
@@ -87,9 +83,7 @@ def main():
     elif target_col in merged.columns:
         merged = merged.rename(columns={target_col: "target"})
     else:
-        raise ValueError(
-            f"После объединения не найдена колонка 'target'. Есть: {merged.columns.tolist()}"
-        )
+        raise ValueError(f"После объединения не найдена колонка 'target'. Есть: {merged.columns.tolist()}")
 
     logging.info(f"Совмещено {len(merged):,} строк для оценки")
 
@@ -106,9 +100,7 @@ def main():
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     }
 
-    generate_report(
-        metrics, config=report_config, output_dir=str(output_dir), fmt="txt"
-    )
+    generate_report(metrics, config=report_config, output_dir=str(output_dir), fmt="txt")
 
     logging.info(f"Метрики: {metrics}")
     logging.info(f"Отчёт сохранён в {output_dir}")

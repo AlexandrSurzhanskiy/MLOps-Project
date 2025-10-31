@@ -54,9 +54,7 @@ def load_model(model_class, model_dir, data_path=None):
             config["n_users"] = int(df["user_idx"].max()) + 1
         if "n_items" not in config:
             config["n_items"] = int(df["item_idx"].max()) + 1
-        logging.warning(
-            "n_users/n_items восстановлены из данных при отсутствии в конфиге"
-        )
+        logging.warning("n_users/n_items восстановлены из данных при отсутствии в конфиге")
 
     valid_args = inspect.signature(model_class.__init__).parameters
     filtered_config = {k: v for k, v in config.items() if k in valid_args}

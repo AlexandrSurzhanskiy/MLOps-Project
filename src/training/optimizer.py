@@ -9,17 +9,13 @@ def get_optimizer(model, cfg):
     weight_decay = opt_cfg.get("weight_decay", 0.0)
 
     if name == "adam":
-        optimizer = torch.optim.Adam(
-            model.parameters(), lr=lr, weight_decay=weight_decay
-        )
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     elif name == "sgd":
         optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9)
     else:
         raise ValueError(f"Неизвестный оптимизатор: {name}")
 
-    logging.info(
-        f"Инициализирован оптимизатор: {name.upper()} (lr={lr}, wd={weight_decay})"
-    )
+    logging.info(f"Инициализирован оптимизатор: {name.upper()} (lr={lr}, wd={weight_decay})")
     return optimizer
 
 
