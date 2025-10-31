@@ -13,7 +13,9 @@ def classification_metrics(y_true, y_pred, threshold=0.5):
         auc = roc_auc_score(y_true, y_pred)
     except ValueError:
         auc = float("nan")
-    logging.info(f"[METRICS] Accuracy: {acc:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}")
+    logging.info(
+        f"[METRICS] Accuracy: {acc:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}"
+    )
     return {"accuracy": acc, "f1": f1, "auc": auc}
 
 
@@ -32,7 +34,9 @@ def ndcg_at_k(y_true_lists, y_pred_lists, k=10):
         for i, item in enumerate(preds[:k]):
             if item in true_items:
                 dcg += 1.0 / np.log2(i + 2)
-        idcg = sum(1.0 / np.log2(i + 2) for i in range(min(len(true_items), k)))
+        idcg = sum(
+            1.0 / np.log2(i + 2) for i in range(min(len(true_items), k))
+        )
         ndcgs.append(dcg / idcg if idcg > 0 else 0.0)
     return np.mean(ndcgs)
 
@@ -60,7 +64,9 @@ def compute_metrics(y_true, y_pred, topk_data=None):
             hr = hit_rate_at_k(y_true_lists, y_pred_lists, k=k)
             ndcg = ndcg_at_k(y_true_lists, y_pred_lists, k=k)
             mapk = map_at_k(y_true_lists, y_pred_lists, k=k)
-            metrics.update({f"hit_rate@{k}": hr, f"ndcg@{k}": ndcg, f"map@{k}": mapk})
+            metrics.update(
+                {f"hit_rate@{k}": hr, f"ndcg@{k}": ndcg, f"map@{k}": mapk}
+            )
 
     return metrics
 

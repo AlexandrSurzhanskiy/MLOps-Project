@@ -26,5 +26,7 @@ def get_dataloaders(train_path, test_path, batch_size=256):
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
 
-    logging.info(f"DataLoaders готовы: train={len(train_ds)}, test={len(test_ds)}")
+    logging.info(
+        f"DataLoaders готовы: train={len(train_ds)}, test={len(test_ds)}"
+    )
     return train_loader, test_loader

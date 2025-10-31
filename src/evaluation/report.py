@@ -3,7 +3,9 @@ from datetime import datetime
 import logging
 
 
-def generate_report(metrics: dict, config: dict, output_dir: str, fmt: str = "txt"):
+def generate_report(
+    metrics: dict, config: dict, output_dir: str, fmt: str = "txt"
+):
     os.makedirs(output_dir, exist_ok=True)
 
     model_name = (
@@ -34,9 +36,7 @@ def generate_report(metrics: dict, config: dict, output_dir: str, fmt: str = "tx
     for k, v in metrics.items():
         lines.append(f"{k.capitalize():15}: {v:.4f}")
 
-    report_name = (
-        f"evaluation_report_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.{fmt}"
-    )
+    report_name = f"evaluation_report_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.{fmt}"
     report_path = os.path.join(output_dir, report_name)
 
     with open(report_path, "w", encoding="utf-8") as f:

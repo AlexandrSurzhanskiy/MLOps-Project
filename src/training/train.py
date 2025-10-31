@@ -10,7 +10,11 @@ def train_one_epoch(model, dataloader, criterion, optimizer, device):
     model.train()
     running_loss = 0.0
     for users, items, labels in tqdm(dataloader, desc="Training", ncols=90):
-        users, items, labels = users.to(device), items.to(device), labels.to(device)
+        users, items, labels = (
+            users.to(device),
+            items.to(device),
+            labels.to(device),
+        )
         optimizer.zero_grad()
         preds = model(users, items)
         preds = preds.view(-1)
@@ -32,7 +36,9 @@ def train_model(model, train_loader, val_loader, cfg, device="cpu"):
     n_epochs = cfg["training"].get("epochs", 10)
 
     for epoch in range(1, n_epochs + 1):
-        loss = train_one_epoch(model, train_loader, criterion, optimizer, device)
+        loss = train_one_epoch(
+            model, train_loader, criterion, optimizer, device
+        )
         metrics = validate(model, val_loader, device)
         logging.info(
             f"[EPOCH {epoch}/{n_epochs}] loss={loss:.4f} | AUC={metrics.get('auc', 0):.4f}"

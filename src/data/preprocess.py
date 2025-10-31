@@ -27,7 +27,8 @@ def check_data_format(df, required_cols=("user_idx", "item_idx", "label")):
 
 
 def preprocess_events(
-    raw_path="data/raw/events.csv", output_path="data/processed/interactions.parquet"
+    raw_path="data/raw/events.csv",
+    output_path="data/processed/interactions.parquet",
 ):
     logging.info(f"Загрузка данных из {raw_path} ...")
     raw_path = Path(raw_path)
@@ -46,12 +47,16 @@ def preprocess_events(
     df["user_idx"] = df["visitorid"].map(user2idx)
     df["item_idx"] = df["itemid"].map(item2idx)
 
-    df = df.groupby(["user_idx", "item_idx"], as_index=False).agg({"label": "max"})
+    df = df.groupby(["user_idx", "item_idx"], as_index=False).agg(
+        {"label": "max"}
+    )
 
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(output_path, index=False)
-    logging.info(f"Обработанный датасет сохранён в {output_path} ({len(df)} записей)")
+    logging.info(
+        f"Обработанный датасет сохранён в {output_path} ({len(df)} записей)"
+    )
 
 
 if __name__ == "__main__":
@@ -60,4 +65,6 @@ if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s"
     )
-    preprocess_events("data/raw/events.csv", "data/processed/interactions.parquet")
+    preprocess_events(
+        "data/raw/events.csv", "data/processed/interactions.parquet"
+    )

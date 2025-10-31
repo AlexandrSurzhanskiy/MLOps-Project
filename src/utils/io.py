@@ -5,7 +5,9 @@ import inspect
 from pathlib import Path
 
 
-def save_model(model, output_dir: str, metrics: dict = None, config: dict = None):
+def save_model(
+    model, output_dir: str, metrics: dict = None, config: dict = None
+):
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 

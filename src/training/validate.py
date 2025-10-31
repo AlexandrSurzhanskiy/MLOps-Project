@@ -9,7 +9,11 @@ def validate(model, loader, device="cpu"):
 
     with torch.no_grad():
         for users, items, labels in loader:
-            users, items, labels = users.to(device), items.to(device), labels.to(device)
+            users, items, labels = (
+                users.to(device),
+                items.to(device),
+                labels.to(device),
+            )
             preds = model(users, items)
             y_true += labels.cpu().view(-1).tolist()
             y_pred += preds.cpu().view(-1).tolist()
@@ -23,5 +27,7 @@ def validate(model, loader, device="cpu"):
     except ValueError:
         auc = float("nan")
 
-    logging.info(f"[VALIDATION] Accuracy: {acc:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}")
+    logging.info(
+        f"[VALIDATION] Accuracy: {acc:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}"
+    )
     return {"accuracy": acc, "f1": f1, "auc": auc}

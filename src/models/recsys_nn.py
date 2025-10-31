@@ -3,7 +3,9 @@ import torch.nn as nn
 
 
 class RecSysNN(nn.Module):
-    def __init__(self, n_users, n_items, embedding_dim=32, hidden_dim=64, dropout=0.2):
+    def __init__(
+        self, n_users, n_items, embedding_dim=32, hidden_dim=64, dropout=0.2
+    ):
         super().__init__()
         self.user_emb = nn.Embedding(n_users, embedding_dim)
         self.item_emb = nn.Embedding(n_items, embedding_dim)
