@@ -10,8 +10,6 @@ def test_check_data_format_raises_on_missing_columns():
 
 
 def test_check_data_format_raises_on_wrong_type():
-    df = pd.DataFrame(
-        {"user_idx": ["a", "b"], "item_idx": [1, 2], "label": [1, 0]}
-    )
+    df = pd.DataFrame({"user_idx": ["a", "b"], "item_idx": [1, 2], "label": [1, 0]})
     with pytest.raises((TypeError, ValueError)):
         check_data_format(df)

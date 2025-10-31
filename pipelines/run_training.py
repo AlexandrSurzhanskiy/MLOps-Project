@@ -12,12 +12,8 @@ from src.evaluation import generate_report
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Train recommender system model"
-    )
-    parser.add_argument(
-        "--config", type=str, required=True, help="Path to YAML config"
-    )
+    parser = argparse.ArgumentParser(description="Train recommender system model")
+    parser.add_argument("--config", type=str, required=True, help="Path to YAML config")
     args = parser.parse_args()
 
     cfg = load_config(args.config)
@@ -48,9 +44,7 @@ def main():
         **cfg["model"]["params"],
     )
 
-    trained_model = train_model(
-        model, train_loader, val_loader, cfg, device=device
-    )
+    trained_model = train_model(model, train_loader, val_loader, cfg, device=device)
 
     metrics = validate(trained_model, val_loader, device=device)
 

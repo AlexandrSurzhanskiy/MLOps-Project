@@ -3,9 +3,7 @@ from src.data.preprocess import check_data_format
 
 
 def test_check_data_format_valid(tmp_path):
-    df = pd.DataFrame(
-        {"user_idx": [1, 2], "item_idx": [3, 4], "label": [0, 1]}
-    )
+    df = pd.DataFrame({"user_idx": [1, 2], "item_idx": [3, 4], "label": [0, 1]})
     check_data_format(df)
 
 

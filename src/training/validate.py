@@ -27,7 +27,5 @@ def validate(model, loader, device="cpu"):
     except ValueError:
         auc = float("nan")
 
-    logging.info(
-        f"[VALIDATION] Accuracy: {acc:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}"
-    )
+    logging.info(f"[VALIDATION] Accuracy: {acc:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}")
     return {"accuracy": acc, "f1": f1, "auc": auc}

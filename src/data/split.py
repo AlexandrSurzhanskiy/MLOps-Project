@@ -16,9 +16,7 @@ def split_dataset(
     df = pd.read_parquet(processed_path)
     logging.info(f"Загружен {len(df):,} записей для сплита")
 
-    train_df, test_df = train_test_split(
-        df, test_size=test_size, random_state=seed
-    )
+    train_df, test_df = train_test_split(df, test_size=test_size, random_state=seed)
     Path("data/processed").mkdir(parents=True, exist_ok=True)
 
     train_df.to_parquet("data/processed/train.parquet", index=False)

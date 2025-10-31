@@ -14,6 +14,4 @@ def test_validate_runs_without_errors():
 
     assert isinstance(metrics, dict)
     assert "auc" in metrics
-    assert 0 <= metrics["auc"] <= 1 or torch.isnan(
-        torch.tensor(metrics["auc"])
-    )
+    assert 0 <= metrics["auc"] <= 1 or torch.isnan(torch.tensor(metrics["auc"]))

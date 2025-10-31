@@ -6,9 +6,7 @@ from src.utils import setup_logging
 from src.evaluation import compute_metrics, generate_report
 
 
-def find_latest_prediction(
-    version_name: str, base_dir="MLOps/predictions"
-) -> Path:
+def find_latest_prediction(version_name: str, base_dir="MLOps/predictions") -> Path:
     version_dir = Path(base_dir) / version_name
     if not version_dir.exists():
         raise FileNotFoundError(f"Директория {version_dir} не найдена")
@@ -58,17 +56,13 @@ def main():
         pred_path = find_latest_prediction(args.predictions)
 
     elif pred_path.is_dir():
-        pred_path = find_latest_prediction(
-            pred_path.name, base_dir=pred_path.parent
-        )
+        pred_path = find_latest_prediction(pred_path.name, base_dir=pred_path.parent)
 
     logging.info(f"Используем файл c предсказаниями: {pred_path}")
 
     preds_df = pd.read_csv(pred_path)
     gt_df = pd.read_parquet(args.ground_truth)
-    logging.info(
-        f"Загружено {len(preds_df):,} скоров и {len(gt_df):,} таргетов"
-    )
+    logging.info(f"Загружено {len(preds_df):,} скоров и {len(gt_df):,} таргетов")
 
     for col in ["target", "label", "purchased", "event", "click"]:
         if col in gt_df.columns:
@@ -99,9 +93,7 @@ def main():
 
     logging.info(f"Совмещено {len(merged):,} строк для оценки")
 
-    metrics = compute_metrics(
-        merged["target"].values, merged["predicted_score"].values
-    )
+    metrics = compute_metrics(merged["target"].values, merged["predicted_score"].values)
 
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)

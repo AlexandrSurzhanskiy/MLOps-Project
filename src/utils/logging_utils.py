@@ -17,6 +17,4 @@ def setup_logging(level="INFO", log_dir="logs", log_name="train.log"):
         force=True,
     )
 
-    logging.info(
-        f"Логирование инициализировано. Уровень: {level}. Файл: {log_path}"
-    )
+    logging.info(f"Логирование инициализировано. Уровень: {level}. Файл: {log_path}")
