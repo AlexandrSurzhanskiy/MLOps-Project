@@ -1,3 +1,6 @@
+import os
+import json
+import torch
 import torch
 import torch.nn as nn
 
@@ -23,8 +26,6 @@ class RecSysNN(nn.Module):
         return self.mlp(x).squeeze()
 
     def save_pretrained(self, output_dir):
-        import os, json, torch
-
         os.makedirs(output_dir, exist_ok=True)
         torch.save(self.state_dict(), f"{output_dir}/pytorch_model.bin")
         cfg = {
