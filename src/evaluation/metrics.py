@@ -12,7 +12,7 @@ def classification_metrics(y_true, y_pred, threshold=0.5):
     try:
         auc = roc_auc_score(y_true, y_pred)
     except ValueError:
-        auc = float('nan')
+        auc = float("nan")
     logging.info(f"[METRICS] Accuracy: {acc:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}")
     return {"accuracy": acc, "f1": f1, "auc": auc}
 
@@ -60,11 +60,7 @@ def compute_metrics(y_true, y_pred, topk_data=None):
             hr = hit_rate_at_k(y_true_lists, y_pred_lists, k=k)
             ndcg = ndcg_at_k(y_true_lists, y_pred_lists, k=k)
             mapk = map_at_k(y_true_lists, y_pred_lists, k=k)
-            metrics.update({
-                f"hit_rate@{k}": hr,
-                f"ndcg@{k}": ndcg,
-                f"map@{k}": mapk
-            })
+            metrics.update({f"hit_rate@{k}": hr, f"ndcg@{k}": ndcg, f"map@{k}": mapk})
 
     return metrics
 
@@ -78,4 +74,4 @@ def postprocess_predictions(raw_scores, threshold=0.5):
 def test_postprocess_predictions():
     preds = np.array([0.1, 0.9])
     out = postprocess_predictions(preds, threshold=0.5)
-    assert (out == np.array([0,1])).all()
+    assert (out == np.array([0, 1])).all()

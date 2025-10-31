@@ -28,9 +28,7 @@ def main():
     logging.info(f"Загрузка датасета: {train_path}")
 
     train_loader, val_loader = get_dataloaders(
-        train_path,
-        test_path,
-        batch_size=cfg["training"]["batch_size"]
+        train_path, test_path, batch_size=cfg["training"]["batch_size"]
     )
 
     train_df = pd.read_parquet(train_path)
@@ -43,7 +41,7 @@ def main():
         model_name=cfg["model"]["name"],
         n_users=n_users,
         n_items=n_items,
-        **cfg["model"]["params"]
+        **cfg["model"]["params"],
     )
 
     trained_model = train_model(model, train_loader, val_loader, cfg, device=device)
@@ -57,10 +55,7 @@ def main():
     }
 
     save_model(
-        trained_model,
-        cfg["training"]["output_dir"],
-        metrics=metrics,
-        config=config
+        trained_model, cfg["training"]["output_dir"], metrics=metrics, config=config
     )
 
     project_root = Path(__file__).resolve().parents[1]

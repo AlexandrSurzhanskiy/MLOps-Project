@@ -12,7 +12,7 @@ def setup_logging(level="INFO", log_dir="logs", log_name="train.log"):
         datefmt="%Y-%m-%d %H:%M:%S",
         handlers=[
             logging.FileHandler(log_path, mode="w", encoding="utf-8"),
-            logging.StreamHandler()
+            logging.StreamHandler(),
         ],
         force=True,
     )

@@ -9,10 +9,27 @@ from src.models.recsys_nn import RecSysNN
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Запуск инференса обученной рекомендательной модели")
-    parser.add_argument("--model_dir", type=str, required=True, help="Путь к директории с сохранённой моделью")
-    parser.add_argument("--data", type=str, required=True, help="Путь к parquet-файлу с парами user-item для расчёта предсказаний")
-    parser.add_argument("--output", type=str, default="MLOps/predictions", help="Корневая директория для сохранения предсказаний")
+    parser = argparse.ArgumentParser(
+        description="Запуск инференса обученной рекомендательной модели"
+    )
+    parser.add_argument(
+        "--model_dir",
+        type=str,
+        required=True,
+        help="Путь к директории с сохранённой моделью",
+    )
+    parser.add_argument(
+        "--data",
+        type=str,
+        required=True,
+        help="Путь к parquet-файлу с парами user-item для расчёта предсказаний",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="MLOps/predictions",
+        help="Корневая директория для сохранения предсказаний",
+    )
     args = parser.parse_args()
 
     setup_logging(level="INFO")

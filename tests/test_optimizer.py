@@ -13,7 +13,7 @@ def test_get_optimizer_and_scheduler():
     cfg = {
         "training": {
             "optimizer": {"type": "adam", "lr": 0.001, "weight_decay": 0.01},
-            "scheduler": {"type": "step", "step_size": 1, "gamma": 0.9}
+            "scheduler": {"type": "step", "step_size": 1, "gamma": 0.9},
         }
     }
 

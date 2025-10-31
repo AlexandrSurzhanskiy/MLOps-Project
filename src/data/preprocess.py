@@ -25,7 +25,10 @@ def check_data_format(df, required_cols=("user_idx", "item_idx", "label")):
 
     return True
 
-def preprocess_events(raw_path="data/raw/events.csv", output_path="data/processed/interactions.parquet"):
+
+def preprocess_events(
+    raw_path="data/raw/events.csv", output_path="data/processed/interactions.parquet"
+):
     logging.info(f"Загрузка данных из {raw_path} ...")
     raw_path = Path(raw_path)
     if not raw_path.exists():
@@ -53,5 +56,8 @@ def preprocess_events(raw_path="data/raw/events.csv", output_path="data/processe
 
 if __name__ == "__main__":
     import logging
-    logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
+
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s"
+    )
     preprocess_events("data/raw/events.csv", "data/processed/interactions.parquet")

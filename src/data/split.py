@@ -4,9 +4,9 @@ import logging
 from pathlib import Path
 
 
-def split_dataset(processed_path="data/processed/interactions.parquet",
-                  test_size=0.2,
-                  seed=42):
+def split_dataset(
+    processed_path="data/processed/interactions.parquet", test_size=0.2, seed=42
+):
     processed_path = Path(processed_path)
     if not processed_path.exists():
         raise FileNotFoundError(f"Файл не найден: {processed_path}")
@@ -20,14 +20,15 @@ def split_dataset(processed_path="data/processed/interactions.parquet",
     train_df.to_parquet("data/processed/train.parquet", index=False)
     test_df.to_parquet("data/processed/test.parquet", index=False)
 
-    logging.info(f"Train: {len(train_df):,}, Test: {len(test_df):,} — сохранены в data/processed/")
+    logging.info(
+        f"Train: {len(train_df):,}, Test: {len(test_df):,} — сохранены в data/processed/"
+    )
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO,
-                        format="%(asctime)s | %(levelname)s | %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s"
+    )
     split_dataset(
-        processed_path="data/processed/interactions.parquet",
-        test_size=0.2,
-        seed=42
+        processed_path="data/processed/interactions.parquet", test_size=0.2, seed=42
     )

@@ -14,6 +14,7 @@ def load_config(path: str):
         cfg = yaml.safe_load(f)
 
     root = Path(__file__).resolve().parents[2]
+
     def make_absolute(d):
         if isinstance(d, dict):
             return {k: make_absolute(v) for k, v in d.items()}

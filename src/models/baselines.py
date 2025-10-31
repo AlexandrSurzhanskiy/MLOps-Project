@@ -7,7 +7,9 @@ class ItemBasedCF:
     def __init__(self, interactions_matrix):
         # interactions_matrix: np.array [users × items]
         self.sim_matrix = cosine_similarity(interactions_matrix.T)
-        logging.info(f"Item-based CF: similarity matrix shape = {self.sim_matrix.shape}")
+        logging.info(
+            f"Item-based CF: similarity matrix shape = {self.sim_matrix.shape}"
+        )
 
     def recommend(self, user_vector, top_k=10):
         scores = user_vector @ self.sim_matrix

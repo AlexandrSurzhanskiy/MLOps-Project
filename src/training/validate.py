@@ -21,7 +21,7 @@ def validate(model, loader, device="cpu"):
     try:
         auc = roc_auc_score(y_true, y_pred)
     except ValueError:
-        auc = float('nan')
+        auc = float("nan")
 
     logging.info(f"[VALIDATION] Accuracy: {acc:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}")
     return {"accuracy": acc, "f1": f1, "auc": auc}

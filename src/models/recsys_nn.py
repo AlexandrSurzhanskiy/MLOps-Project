@@ -13,7 +13,7 @@ class RecSysNN(nn.Module):
             nn.ReLU(),
             nn.Dropout(dropout),
             nn.Linear(hidden_dim, 1),
-            nn.Sigmoid()
+            nn.Sigmoid(),
         )
 
     def forward(self, user_ids, item_ids):
@@ -24,12 +24,13 @@ class RecSysNN(nn.Module):
 
     def save_pretrained(self, output_dir):
         import os, json, torch
+
         os.makedirs(output_dir, exist_ok=True)
         torch.save(self.state_dict(), f"{output_dir}/pytorch_model.bin")
         cfg = {
             "n_users": self.user_emb.num_embeddings,
             "n_items": self.item_emb.num_embeddings,
-            "embedding_dim": self.user_emb.embedding_dim
+            "embedding_dim": self.user_emb.embedding_dim,
         }
         with open(f"{output_dir}/config.json", "w") as f:
             json.dump(cfg, f, indent=2)
