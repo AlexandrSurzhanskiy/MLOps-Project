@@ -82,15 +82,19 @@ PYTHONPATH=. python pipelines/run_training.py \
 
 ```bash
 PYTHONPATH=. python pipelines/run_inference.py \
-  --model_dir MLOps/models/recsys_nn_v1/ \
-  --data MLOps/data/processed/test.parquet
+  --model_dir models/recsys_nn_v1/ \
+  --data data/processed/test.parquet
 ```
 
 ### 5️⃣ Оценка качества модели
 
 ```bash
+PRED=$(ls -t predictions/recsys_nn_v1/predictions_*.csv | head -n 1)
+
 PYTHONPATH=. python pipelines/run_evaluation.py \
-  --model_name recsys_nn_v1
+  --predictions "$PRED" \
+  --ground_truth data/processed/test.parquet \
+  --output reports/recsys_nn_v1
 ```
 
 ---

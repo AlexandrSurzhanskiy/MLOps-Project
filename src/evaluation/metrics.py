@@ -1,7 +1,6 @@
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 import logging
-from src.evaluation.metrics import postprocess_predictions
 import numpy as np
 
 

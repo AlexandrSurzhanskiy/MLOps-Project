@@ -25,7 +25,7 @@ def main():
     parser.add_argument(
         "--output",
         type=str,
-        default="MLOps/predictions",
+        default="predictions",
         help="Корневая директория для сохранения предсказаний",
     )
     args = parser.parse_args()
