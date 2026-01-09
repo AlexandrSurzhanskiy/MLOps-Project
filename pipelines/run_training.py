@@ -22,8 +22,11 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     logging.info(f"Используется устройство: {device}")
 
-    train_path = cfg.get("train_path")
-    test_path = cfg.get("test_path")
+    train_path = cfg["data"]["train_path"]
+    test_path = cfg["data"]["test_path"]
+
+    if not train_path or not test_path:
+        raise ValueError("В конфиге не заданы пути train_path/test_path")
 
     logging.info(f"Загрузка датасета: {train_path}")
 

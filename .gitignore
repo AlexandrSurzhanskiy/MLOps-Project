@@ -25,6 +25,8 @@ logs/*
 !logs/.gitkeep
 reports/*
 !reports/.gitkeep
+predictions/*
+!predictions/.gitkeep
 
 *.log
 *.tmp

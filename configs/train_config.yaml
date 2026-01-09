@@ -1,6 +1,8 @@
 data:
   path_raw: data/raw/events.csv
   path_processed: data/processed/interactions.parquet
+  train_path: data/processed/train.parquet
+  test_path: data/processed/test.parquet
   n_users: 30542
   n_items: 8709
   test_size: 0.2
