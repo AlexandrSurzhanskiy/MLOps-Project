@@ -1,0 +1,5 @@
+outs:
+- md5: f39b03c8f4ae7bafce647d0a8603e143
+  size: 388806858
+  hash: md5
+  path: mymodel.mar
