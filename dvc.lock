@@ -1,0 +1,114 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: PYTHONPATH=. python pipelines/run_preprocess.py --input data/raw/events.csv
+      --output_dir data/processed --test_size 0.2 --seed 42
+    deps:
+    - path: data/raw/events.csv
+      hash: md5
+      md5: fddaf7c1c6a9df23a726500a08ffdd7e
+      size: 94237913
+    - path: pipelines/run_preprocess.py
+      hash: md5
+      md5: 20d2b4f318a3101a1cfd0f3958d9af0b
+      size: 1475
+    - path: src/data/preprocess.py
+      hash: md5
+      md5: b806f9d8e7fe77380c990031f948c21b
+      size: 2775
+    - path: src/data/split.py
+      hash: md5
+      md5: 9e370dd342283a0beff5b60f2eb24651
+      size: 1237
+    outs:
+    - path: data/processed/interactions.parquet
+      hash: md5
+      md5: 179a4c564964877b30cb92764faf7b25
+      size: 15499796
+    - path: data/processed/test.parquet
+      hash: md5
+      md5: 7e20cf6bdf96f848ad0542e21b897c12
+      size: 3853678
+    - path: data/processed/train.parquet
+      hash: md5
+      md5: 6cb610948e7f516af35f5cfed3a73015
+      size: 15551235
+  train:
+    cmd: PYTHONPATH=. python pipelines/run_training.py --config configs/train_config.yaml
+    deps:
+    - path: configs/train_config.yaml
+      hash: md5
+      md5: dee369ba29f990b227d9b641300d01d2
+      size: 625
+    - path: data/processed/test.parquet
+      hash: md5
+      md5: 7e20cf6bdf96f848ad0542e21b897c12
+      size: 3853678
+    - path: data/processed/train.parquet
+      hash: md5
+      md5: 6cb610948e7f516af35f5cfed3a73015
+      size: 15551235
+    - path: pipelines/run_training.py
+      hash: md5
+      md5: 2d83566ddad67c12c51d6b1b87671e2d
+      size: 2342
+    - path: src
+      hash: md5
+      md5: e0105ff6faa6d7279594e3ed20c4f182.dir
+      size: 67426
+      nfiles: 41
+    outs:
+    - path: models/recsys_nn_v1/config.json
+      hash: md5
+      md5: d5acac6e9ebc29bac9ed24dce289c043
+      size: 107
+    - path: models/recsys_nn_v1/metrics.json
+      hash: md5
+      md5: 11afed58f1574ed2dcaa9ef4918615e5
+      size: 95
+    - path: models/recsys_nn_v1/pytorch_model.bin
+      hash: md5
+      md5: 840aef47f56b7dc7a9f31077c4152280
+      size: 419769245
+  evaluate:
+    cmd: "PYTHONPATH=. python pipelines/run_inference.py --model_dir models/recsys_nn_v1
+      --data data/processed/test.parquet --output predictions\nPYTHONPATH=. python
+      pipelines/run_evaluation.py --predictions predictions/recsys_nn_v1 --ground_truth
+      data/processed/test.parquet --output reports/recsys_nn_v1\n"
+    deps:
+    - path: data/processed/test.parquet
+      hash: md5
+      md5: 7e20cf6bdf96f848ad0542e21b897c12
+      size: 3853678
+    - path: models/recsys_nn_v1/config.json
+      hash: md5
+      md5: d5acac6e9ebc29bac9ed24dce289c043
+      size: 107
+    - path: models/recsys_nn_v1/pytorch_model.bin
+      hash: md5
+      md5: 840aef47f56b7dc7a9f31077c4152280
+      size: 419769245
+    - path: pipelines/run_evaluation.py
+      hash: md5
+      md5: c768b005ad3037bfeb92c4a0af60fc03
+      size: 4202
+    - path: pipelines/run_inference.py
+      hash: md5
+      md5: 3d4b9d5020c647ff81bf46e059f2ec58
+      size: 2410
+    - path: src
+      hash: md5
+      md5: e0105ff6faa6d7279594e3ed20c4f182.dir
+      size: 67426
+      nfiles: 41
+    outs:
+    - path: predictions/recsys_nn_v1
+      hash: md5
+      md5: 142c208922299de1091809c4fe3c67ad.dir
+      size: 12143788
+      nfiles: 1
+    - path: reports/recsys_nn_v1
+      hash: md5
+      md5: 75a07feef732b357ee1dfe731978dcdb.dir
+      size: 367
+      nfiles: 1

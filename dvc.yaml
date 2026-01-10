@@ -1,0 +1,42 @@
+stages:
+  prepare:
+    cmd: PYTHONPATH=. python pipelines/run_preprocess.py --input data/raw/events.csv --output_dir data/processed --test_size 0.2 --seed 42
+    deps:
+      - pipelines/run_preprocess.py
+      - src/data/preprocess.py
+      - src/data/split.py
+      - data/raw/events.csv
+    outs:
+      - data/processed/interactions.parquet
+      - data/processed/train.parquet
+      - data/processed/test.parquet
+
+  train:
+    cmd: PYTHONPATH=. python pipelines/run_training.py --config configs/train_config.yaml
+    deps:
+      - pipelines/run_training.py
+      - configs/train_config.yaml
+      - data/processed/train.parquet
+      - data/processed/test.parquet
+      - src
+    outs:
+      - models/recsys_nn_v1/pytorch_model.bin
+      - models/recsys_nn_v1/config.json
+    metrics:
+      - models/recsys_nn_v1/metrics.json
+
+  evaluate:
+    cmd: |
+      PYTHONPATH=. python pipelines/run_inference.py --model_dir models/recsys_nn_v1 --data data/processed/test.parquet --output predictions
+      PYTHONPATH=. python pipelines/run_evaluation.py --predictions predictions/recsys_nn_v1 --ground_truth data/processed/test.parquet --output reports/recsys_nn_v1
+    deps:
+      - pipelines/run_inference.py
+      - pipelines/run_evaluation.py
+      - src
+      - models/recsys_nn_v1/pytorch_model.bin
+      - models/recsys_nn_v1/config.json
+      - data/processed/test.parquet
+    outs:
+      - predictions/recsys_nn_v1
+      - reports/recsys_nn_v1
+
