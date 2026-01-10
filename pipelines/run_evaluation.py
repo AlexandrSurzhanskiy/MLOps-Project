@@ -6,22 +6,32 @@ from src.utils import setup_logging
 from src.evaluation import compute_metrics, generate_report
 
 
-def find_latest_prediction(version_name: str, base_dir="MLOps/predictions") -> Path:
-    version_dir = Path(base_dir) / version_name
+def find_latest_prediction(predictions_arg: str) -> Path:
+    project_root = Path(__file__).resolve().parents[1]
+
+    p = Path(predictions_arg)
+
+    if p.exists():
+        version_dir = p
+
+    else:
+        version_dir = project_root / "predictions" / predictions_arg
+
     if not version_dir.exists():
         raise FileNotFoundError(f"Директория {version_dir} не найдена")
 
-    csv_files = sorted(
-        version_dir.glob("*.csv"),
-        key=lambda p: p.stat().st_mtime,
-        reverse=True,
-    )
-    if not csv_files:
-        raise FileNotFoundError(f"В {version_dir} нет ни одного .csv файла с предсказаниями")
+    csvs = sorted(version_dir.glob("*.csv"), key=lambda x: x.stat().st_mtime, reverse=True)
+    if not csvs:
+        subdirs = [d for d in version_dir.iterdir() if d.is_dir()]
+        if subdirs:
+            subdirs.sort(key=lambda d: d.stat().st_mtime, reverse=True)
+            version_dir = subdirs[0]
+            csvs = sorted(version_dir.glob("*.csv"), key=lambda x: x.stat().st_mtime, reverse=True)
 
-    latest = csv_files[0]
-    logging.info(f"Найден последний файл предсказаний: {latest}")
-    return latest
+    if not csvs:
+        raise FileNotFoundError(f"В директории {version_dir} не найдено ни одного .csv")
+
+    return csvs[0]
 
 
 def main():
