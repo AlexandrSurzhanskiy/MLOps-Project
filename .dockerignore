@@ -1,0 +1,17 @@
+.git
+.dvc
+.dvc/cache
+mlruns
+__pycache__
+*.pyc
+
+data/
+predictions/
+reports/
+logs/
+
+*.parquet
+*.csv
+
+.venv
+.env

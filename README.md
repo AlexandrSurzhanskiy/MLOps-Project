@@ -156,6 +156,39 @@ mlflow ui --host 0.0.0.0 --port 5000
 
 ---
 
+## Офлайн-инференс
+
+### Сборка образа
+
+Если модель/данные версионируются DVC, сначала подтяните веса модели:
+```bash
+dvc pull models/recsys_nn_v1
+````
+
+Соберите образ:
+
+```bash
+docker build -t ml-app:v1 .
+```
+
+### Запуск инференса
+
+Контейнер запускает `python -m src.predict` и ожидает входной файл с колонками `user_idx`, `item_idx`.
+
+Пример (вход Parquet → выход CSV):
+
+```bash
+docker run --rm \
+  -v "$PWD/data/processed:/data" \
+  ml-app:v1 \
+  --input_path /data/test.parquet \
+  --output_path /data/preds.csv
+```
+
+Результат будет сохранён на хосте в `data/processed/preds.csv` с добавленной колонкой `predicted_score`.
+
+---
+
 ## План развития
 
 * Добавить временные признаки (time-based features);
