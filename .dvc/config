@@ -1,0 +1,9 @@
+[core]
+    remote = s3
+['remote "storage"']
+    url = s3://recsys-ml-cashback-xsell/mlops-project
+    endpointurl = https://s3-msk.tinkoff.ru
+['remote "s3"']
+    url = s3://recsys-ml-cashback-xsell/mlops-project
+    endpointurl = https://s3-msk.tinkoff.ru
+    region = us-east-1
