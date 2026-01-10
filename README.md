@@ -189,6 +189,89 @@ docker run --rm \
 
 ---
 
+## Онлайн-инференс
+
+### Собрать `.mar` и Docker-образ
+1) Экспорт модели в TorchScript:
+```bash
+PYTHONPATH=. python scripts/export_torchserve.py \
+  --model_dir models/recsys_nn_v1 \
+  --out_dir torchserve_artifacts/recsys_nn_v1
+````
+
+2. Собрать архив модели для TorchServe:
+
+```bash
+torch-model-archiver \
+  --model-name mymodel \
+  --version 1.0 \
+  --serialized-file torchserve_artifacts/recsys_nn_v1/model.pt \
+  --handler torchserve/handler.py \
+  --export-path model-store \
+  --force
+```
+
+3. Собрать образ:
+
+```bash
+docker build -t mymodel-serve:v1 -f Dockerfile.torchserve .
+```
+
+### Запуск сервиса
+
+```bash
+docker run -d --rm \
+  -p 8080:8080 -p 8081:8081 -p 8082:8082 \
+  --name mymodel \
+  mymodel-serve:v1
+```
+
+Проверка:
+
+```bash
+curl -sS http://localhost:8080/ping
+```
+
+Логи:
+
+```bash
+docker logs -n 200 -f mymodel
+```
+
+### REST-запрос (inference)
+
+Формат входа (`application/json`): массивы одинаковой длины `user_idx` и `item_idx` в корневую директорию, например:
+
+```json
+{ "user_idx": [0,1,2], "item_idx": [10,11,12] }
+```
+
+Запрос:
+
+```bash
+curl -sS --connect-timeout 3 --max-time 15 \
+  -X POST http://localhost:8080/predictions/mymodel \
+  -H "Content-Type: application/json" \
+  -d @sample_input.json
+```
+
+Ответ: JSON-массив вероятностей, по одной на каждую пару (user_idx, item_idx), например:
+
+```json
+[0.12, 0.83, 0.44]
+```
+
+### Конфигурация (`torchserve/config.properties`)
+
+* `inference_address` / `management_address` / `metrics_address` — адреса 8080/8081/8082
+* `model_store` — папка с `.mar`
+* `load_models=mymodel.mar` — автозагрузка модели при старте
+* `default_workers_per_model` — число воркеров на модель
+* `response_timeout` — таймаут ответа (сек)
+
+
+---
+
 ## План развития
 
 * Добавить временные признаки (time-based features);
