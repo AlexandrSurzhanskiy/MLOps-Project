@@ -2,9 +2,7 @@ name: Run Tests and Lint
 
 on:
   push:
-    branches: [ feature/homework ]
   pull_request:
-    branches: [ feature/homework ]
 
 jobs:
   test:
