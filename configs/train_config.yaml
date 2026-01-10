@@ -38,3 +38,8 @@ logging:
 reports:
   output_dir: reports
   fmt: txt
+
+mlflow:
+  experiment_name: "recsys-retailrocket"
+  tracking_uri: null
+  run_name_prefix: "recsys_nn_v1"

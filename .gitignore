@@ -28,6 +28,9 @@ reports/*
 predictions/*
 !predictions/.gitkeep
 
+mlruns/
+mlflow.db
+
 *.log
 *.tmp
 .DS_Store
