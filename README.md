@@ -45,6 +45,25 @@
 
 ---
 
+## Где лежат данные и модели (DVC)
+
+Большие файлы (данные и артефакты модели) версионируются через **DVC** и не хранятся в Git.
+
+- **Сырые данные (DVC):** `data/raw/events.csv`
+- **После предобработки (stage `prepare`):**
+  - `data/processed/interactions.parquet`
+  - `data/processed/train.parquet`
+  - `data/processed/test.parquet`
+- **Итоговая модель (stage `train`):** `models/recsys_nn_v1/`
+  - веса: `models/recsys_nn_v1/pytorch_model.bin`
+  - конфиг: `models/recsys_nn_v1/config.json`
+  - метрики: `models/recsys_nn_v1/metrics.json`
+- **Результаты (stage `evaluate`):**
+  - предсказания: `predictions/recsys_nn_v1/*.csv`
+  - отчёты: `reports/recsys_nn_v1/*`
+
+---
+
 ## Как запустить проект
 
 ### 1️⃣ Установка зависимостей
@@ -96,6 +115,26 @@ PYTHONPATH=. python pipelines/run_evaluation.py \
   --ground_truth data/processed/test.parquet \
   --output reports/recsys_nn_v1
 ```
+
+---
+
+## Как восстановить и воспроизвести результат
+
+```bash
+git clone -b feature/homework2 --single-branch <REPO_URL>
+cd <REPO_DIR>
+
+pip install -r requirements.txt
+
+dvc pull
+dvc repro
+```
+
+После этого будут доступны:
+  - данные в `data/processed/`
+  - модель в `models/recsys_nn_v1/`
+  - предсказания в `predictions/`
+  - отчёты в `reports/`
 
 ---
 
